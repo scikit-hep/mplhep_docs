@@ -1614,45 +1614,6 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Cloning the repository">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#skipping-the-built-docs-optional" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Skipping the built docs (optional)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#getting-the-built-docs-when-you-actually-need-them" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Getting the built docs when you actually need them
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#slimming-an-existing-clone" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Slimming an existing clone
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
 </li>
       
         <li class="md-nav__item">
@@ -1803,46 +1764,16 @@
 <h2 id="bug-reports">Bug Reports<a class="headerlink" href="#bug-reports" title="Permanent link">¤</a></h2>
 <p>Please open an <a href="https://github.com/scikit-hep/mplhep/issues">issue</a>.</p>
 <h2 id="cloning-the-repository">Cloning the repository<a class="headerlink" href="#cloning-the-repository" title="Permanent link">¤</a></h2>
-<p>A plain clone works and is all most contributors need:</p>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/scikit-hep/mplhep.git
 </span></code></pre></div>
-<p>That lands at ~71 MB of <code>.git</code>, of which ~45 MB is the <code>gh-pages</code> branch — the built
-documentation site for every released version. Nothing in the development workflow uses it.</p>
-<p>There is no way for the repository to make a default <code>git clone</code> skip a branch: the refspec
-is chosen by the client, and git's server-side <code>uploadpack.hideRefs</code> is not something GitHub
-exposes. So skipping the built docs has to be opted into, as below.</p>
-<h3 id="skipping-the-built-docs-optional">Skipping the built docs (optional)<a class="headerlink" href="#skipping-the-built-docs-optional" title="Permanent link">¤</a></h3>
-<p>Clone <code>main</code> only, then widen to the other code branches while keeping <code>gh-pages</code> excluded:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a>git<span class="w"> </span>clone<span class="w"> </span>--single-branch<span class="w"> </span>--branch<span class="w"> </span>main<span class="w"> </span>https://github.com/scikit-hep/mplhep.git
-</span><span id="__span-1-2"><a href="#__codelineno-1-2" id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="nb">cd</span><span class="w"> </span>mplhep
-</span><span id="__span-1-3"><a href="#__codelineno-1-3" id="__codelineno-1-3" name="__codelineno-1-3"></a>git<span class="w"> </span>config<span class="w"> </span>remote.origin.fetch<span class="w"> </span><span class="s1">'+refs/heads/*:refs/remotes/origin/*'</span>
-</span><span id="__span-1-4"><a href="#__codelineno-1-4" id="__codelineno-1-4" name="__codelineno-1-4"></a>git<span class="w"> </span>config<span class="w"> </span>--add<span class="w"> </span>remote.origin.fetch<span class="w"> </span><span class="s1">'^refs/heads/gh-pages'</span>
-</span><span id="__span-1-5"><a href="#__codelineno-1-5" id="__codelineno-1-5" name="__codelineno-1-5"></a>git<span class="w"> </span>fetch
-</span></code></pre></div>
-<p>That lands at ~28 MB of <code>.git</code> with every code branch visible to <code>git branch -r</code>, so
-<code>git checkout some/feature-branch</code> and PR review work normally. <code>gh-pages</code> is never
-downloaded, and plain <code>git fetch</code> will not pull it later.</p>
-<p>The <code>^refs/heads/gh-pages</code> line is a <em>negative refspec</em> and needs git ≥ 2.29. If you only
-ever work on <code>main</code>, the first command on its own is enough (~26 MB).</p>
-<h3 id="getting-the-built-docs-when-you-actually-need-them">Getting the built docs when you actually need them<a class="headerlink" href="#getting-the-built-docs-when-you-actually-need-them" title="Permanent link">¤</a></h3>
-<p>Only inspecting or repairing the published site requires <code>gh-pages</code>. An explicit refspec on
-the command line overrides the exclusion, so no config change is needed:</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a>git<span class="w"> </span>fetch<span class="w"> </span>origin<span class="w"> </span>gh-pages:refs/remotes/origin/gh-pages
-</span></code></pre></div>
-<p>That adds ~43 MB. It is sticky — a later <code>git fetch --prune</code> will not remove it. To go back
-to a lean clone, use the recipe below.</p>
-<h3 id="slimming-an-existing-clone">Slimming an existing clone<a class="headerlink" href="#slimming-an-existing-clone" title="Permanent link">¤</a></h3>
-<p>If you already have <code>gh-pages</code> locally, exclude it and reclaim the space (~69 MB → ~27 MB):</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a>git<span class="w"> </span>config<span class="w"> </span>--add<span class="w"> </span>remote.origin.fetch<span class="w"> </span><span class="s1">'^refs/heads/gh-pages'</span>
-</span><span id="__span-3-2"><a href="#__codelineno-3-2" id="__codelineno-3-2" name="__codelineno-3-2"></a>git<span class="w"> </span>update-ref<span class="w"> </span>-d<span class="w"> </span>refs/remotes/origin/gh-pages
-</span><span id="__span-3-3"><a href="#__codelineno-3-3" id="__codelineno-3-3" name="__codelineno-3-3"></a>git<span class="w"> </span>reflog<span class="w"> </span>expire<span class="w"> </span>--expire<span class="o">=</span>now<span class="w"> </span>--all
-</span><span id="__span-3-4"><a href="#__codelineno-3-4" id="__codelineno-3-4" name="__codelineno-3-4"></a>git<span class="w"> </span>gc<span class="w"> </span>--prune<span class="o">=</span>now
-</span></code></pre></div>
-<p>Deleting the ref explicitly is the part that matters: <code>git fetch --prune</code> will <em>not</em> remove
-a remote-tracking ref that falls outside the current refspec, and <code>git gc</code> cannot reclaim
-the objects while any ref still points at them.</p>
+<p>That is all you need — roughly 26 MB.</p>
+<p>The built documentation site does not live here. It is published to
+<a href="https://github.com/scikit-hep/mplhep_docs">scikit-hep/mplhep_docs</a>, because keeping the
+rendered HTML for every released version in this repository meant every contributor
+downloaded the whole published site just to work on the library. Doc <em>sources</em> stay here,
+under <code>new_docs/</code>; only the build output is elsewhere.</p>
 <h2 id="installing-the-development-environment">Installing the development environment<a class="headerlink" href="#installing-the-development-environment" title="Permanent link">¤</a></h2>
-<p><div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a href="#__codelineno-4-1" id="__codelineno-4-1" name="__codelineno-4-1"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span>--editable<span class="w"> </span><span class="s2">".[all]"</span>
+<p><div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span>--editable<span class="w"> </span><span class="s2">".[all]"</span>
 </span></code></pre></div>
 Also conveniently accessible as <code>bash install.sh</code>.</p>
 <h2 id="pull-requests">Pull Requests<a class="headerlink" href="#pull-requests" title="Permanent link">¤</a></h2>
@@ -1859,33 +1790,33 @@ Also conveniently accessible as <code>bash install.sh</code>.</p>
 <h3 id="running-the-tests">Running the tests<a class="headerlink" href="#running-the-tests" title="Permanent link">¤</a></h3>
 <p>You can run the unit tests (which should be fast!) via the following command:</p>
 <p><strong>With  pytest</strong></p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a href="#__codelineno-5-1" id="__codelineno-5-1" name="__codelineno-5-1"></a>pytest<span class="w"> </span>--mpl<span class="w"> </span>--ignore<span class="o">=</span>tests/test_notebooks.py
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a>pytest<span class="w"> </span>--mpl<span class="w"> </span>--ignore<span class="o">=</span>tests/test_notebooks.py
 </span></code></pre></div>
 <p>Note: This ignores the notebook tests (which are run via <a href="https://github.com/nteract/papermill">papermill</a>) and run somewhat slow.</p>
 <p>Make sure to run the complete suite before submitting a PR</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a href="#__codelineno-6-1" id="__codelineno-6-1" name="__codelineno-6-1"></a>python<span class="w"> </span>-m<span class="w"> </span>pytest<span class="w"> </span>-r<span class="w"> </span>sa<span class="w"> </span>--mpl<span class="w"> </span>--mpl-results-path<span class="o">=</span>pytest_results<span class="w"> </span>-n<span class="w"> </span><span class="m">4</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a>python<span class="w"> </span>-m<span class="w"> </span>pytest<span class="w"> </span>-r<span class="w"> </span>sa<span class="w"> </span>--mpl<span class="w"> </span>--mpl-results-path<span class="o">=</span>pytest_results<span class="w"> </span>-n<span class="w"> </span><span class="m">4</span>
 </span></code></pre></div>
 <p><strong>With  nox</strong></p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a href="#__codelineno-7-1" id="__codelineno-7-1" name="__codelineno-7-1"></a>nox<span class="w"> </span>-s<span class="w"> </span>tests
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a href="#__codelineno-4-1" id="__codelineno-4-1" name="__codelineno-4-1"></a>nox<span class="w"> </span>-s<span class="w"> </span>tests
 </span></code></pre></div>
 <h3 id="making-a-pull-request">Making a pull request<a class="headerlink" href="#making-a-pull-request" title="Permanent link">¤</a></h3>
 <p>We follow <a href="https://www.conventionalcommits.org/">Conventional Commit</a> for commit messages and PR titles. Since we merge PR's using squash commits, it's fine if the final commit messages (proposed in the PR body) follow this convention.</p>
 <h3 id="generating-reference-visuals">Generating Reference Visuals<a class="headerlink" href="#generating-reference-visuals" title="Permanent link">¤</a></h3>
 <p>If you modified expected outcomes of the tests. New baseline visuals can be generated using this command:</p>
 <p><strong>With  pytest</strong></p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a href="#__codelineno-8-1" id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>pytest<span class="w"> </span>-r<span class="w"> </span>sa<span class="w"> </span>--mpl<span class="w"> </span>-n<span class="w"> </span><span class="m">4</span><span class="w"> </span>--mpl-generate-path<span class="o">=</span>tests/baseline
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a href="#__codelineno-5-1" id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>pytest<span class="w"> </span>-r<span class="w"> </span>sa<span class="w"> </span>--mpl<span class="w"> </span>-n<span class="w"> </span><span class="m">4</span><span class="w"> </span>--mpl-generate-path<span class="o">=</span>tests/baseline
 </span></code></pre></div>
 <p><strong>With  nox</strong></p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a href="#__codelineno-9-1" id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="w"> </span>nox<span class="w"> </span>-s<span class="w"> </span>generate_examples_figures
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a href="#__codelineno-6-1" id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="w"> </span>nox<span class="w"> </span>-s<span class="w"> </span>generate_examples_figures
 </span></code></pre></div>
 <p>Only include the actually modified baseline images in your PR! Running <code>git add -a</code> and the like will sometimes result in including images which are visually identically but not the same bit-wise.</p>
 <h3 id="linting-and-formatting">Linting and Formatting<a class="headerlink" href="#linting-and-formatting" title="Permanent link">¤</a></h3>
 <p>We use <code>prek</code> to manage code formatting and linting. Make sure to run it before committing your changes:</p>
 <p><strong>With  prek</strong></p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a href="#__codelineno-10-1" id="__codelineno-10-1" name="__codelineno-10-1"></a>prek<span class="w"> </span>run<span class="w"> </span>--all-files
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a href="#__codelineno-7-1" id="__codelineno-7-1" name="__codelineno-7-1"></a>prek<span class="w"> </span>run<span class="w"> </span>--all-files
 </span></code></pre></div>
 <p><strong>With  nox</strong></p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a href="#__codelineno-11-1" id="__codelineno-11-1" name="__codelineno-11-1"></a>nox<span class="w"> </span>-s<span class="w"> </span>lint
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a href="#__codelineno-8-1" id="__codelineno-8-1" name="__codelineno-8-1"></a>nox<span class="w"> </span>-s<span class="w"> </span>lint
 </span></code></pre></div>
 <h2 id="contributing-to-the-documentation">Contributing to the documentation<a class="headerlink" href="#contributing-to-the-documentation" title="Permanent link">¤</a></h2>
 <p>The documentation is built using <a href="https://www.mkdocs.org/">MkDocs</a> and the <a href="https://squidfunk.github.io/mkdocs-material/">Material for MkDocs</a> theme. To contribute to the documentation, please look at the <a href="../CONTRIBUTING_DOC/"><code>new_docs/CONTRIBUTING_DOC.md</code></a> file for instructions.</p>
@@ -1909,7 +1840,7 @@ Also conveniently accessible as <code>bash install.sh</code>.</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="July 23, 2026 13:36:38 UTC">July 23, 2026</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="July 23, 2026 14:39:15 UTC">July 23, 2026</span>
   </span>
 
     
