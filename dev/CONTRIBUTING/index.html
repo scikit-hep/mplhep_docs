@@ -1595,6 +1595,34 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#ai-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AI Policy
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="AI Policy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#crediting-ai-in-commits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Crediting AI in commits
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#bug-reports" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1761,10 +1789,44 @@
 
 <h1 id="contributing-to-mplhep">Contributing to mplhep<a class="headerlink" href="#contributing-to-mplhep" title="Permanent link">¤</a></h1>
 <p>We are happy to accept contributions to <code>mplhep</code> via Pull Requests to the GitHub repo. To get started fork the repo.</p>
+<h2 id="ai-policy">AI Policy<a class="headerlink" href="#ai-policy" title="Permanent link">¤</a></h2>
+<p>AI-assisted contributions are welcome. We ask that you:</p>
+<ul>
+<li><strong>Disclose</strong> that AI was used, and name the tool and model.</li>
+<li><strong>Review and understand every line you submit.</strong> You are responsible for it.</li>
+<li><strong>Meet the same quality, testing, and style standards</strong> as any other contribution.</li>
+<li><strong>Do not use fully autonomous agents</strong> to open issues or pull requests.</li>
+<li><strong>Respond to review comments yourself.</strong></li>
+</ul>
+<p>This applies to issues and comments as well as pull requests. Using AI for
+translation or grammar help is fine and needs no disclosure.</p>
+<p>Unsolicited, undisclosed, or low-effort AI pull requests may be closed at
+maintainer discretion.</p>
+<h3 id="crediting-ai-in-commits">Crediting AI in commits<a class="headerlink" href="#crediting-ai-in-commits" title="Permanent link">¤</a></h3>
+<p>Only humans can be named as co-authors, and an AI can <em>never</em> sign off on a commit.</p>
+<ul>
+<li>Do <strong>not</strong> add a <code>Co-authored-by:</code> trailer for an AI. That trailer asserts
+  authorship and a copyright interest — an AI is a tool, not an author, and the
+  work stays yours.</li>
+<li>Do <strong>not</strong> let a tool add <code>Signed-off-by:</code> on your behalf. That line certifies
+  the <a href="https://developercertificate.org/">Developer Certificate of Origin</a>, a
+  legal statement only a human can make.</li>
+</ul>
+<p>Credit AI assistance with the trailer the Linux kernel standardised in
+<a href="https://docs.kernel.org/process/coding-assistants.html"><code>Documentation/process/coding-assistants.rst</code></a>:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a>Assisted-by: &lt;harness&gt;:&lt;model&gt;
+</span></code></pre></div>
+<p>for example:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a>Assisted-by: claude-code:claude-opus-5
+</span></code></pre></div>
+<p>Put the trailer in your commit messages. Pull requests are often squash-merged,
+and then the message proposed in the pull request body (see
+<a href="#making-a-pull-request">Making a pull request</a>) is what lands on <code>main</code> — so add
+it there too, and the credit survives either way.</p>
 <h2 id="bug-reports">Bug Reports<a class="headerlink" href="#bug-reports" title="Permanent link">¤</a></h2>
 <p>Please open an <a href="https://github.com/scikit-hep/mplhep/issues">issue</a>.</p>
 <h2 id="cloning-the-repository">Cloning the repository<a class="headerlink" href="#cloning-the-repository" title="Permanent link">¤</a></h2>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/scikit-hep/mplhep.git
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/scikit-hep/mplhep.git
 </span></code></pre></div>
 <p>That is all you need — roughly 26 MB.</p>
 <p>The built documentation site does not live here. It is published to
@@ -1773,7 +1835,7 @@ rendered HTML for every released version in this repository meant every contribu
 downloaded the whole published site just to work on the library. Doc <em>sources</em> stay here,
 under <code>new_docs/</code>; only the build output is elsewhere.</p>
 <h2 id="installing-the-development-environment">Installing the development environment<a class="headerlink" href="#installing-the-development-environment" title="Permanent link">¤</a></h2>
-<p><div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span>--editable<span class="w"> </span><span class="s2">".[all]"</span>
+<p><div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span>--editable<span class="w"> </span><span class="s2">".[all]"</span>
 </span></code></pre></div>
 Also conveniently accessible as <code>bash install.sh</code>.</p>
 <h2 id="pull-requests">Pull Requests<a class="headerlink" href="#pull-requests" title="Permanent link">¤</a></h2>
@@ -1790,33 +1852,33 @@ Also conveniently accessible as <code>bash install.sh</code>.</p>
 <h3 id="running-the-tests">Running the tests<a class="headerlink" href="#running-the-tests" title="Permanent link">¤</a></h3>
 <p>You can run the unit tests (which should be fast!) via the following command:</p>
 <p><strong>With  pytest</strong></p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a>pytest<span class="w"> </span>--mpl<span class="w"> </span>--ignore<span class="o">=</span>tests/test_notebooks.py
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a href="#__codelineno-4-1" id="__codelineno-4-1" name="__codelineno-4-1"></a>pytest<span class="w"> </span>--mpl<span class="w"> </span>--ignore<span class="o">=</span>tests/test_notebooks.py
 </span></code></pre></div>
 <p>Note: This ignores the notebook tests (which are run via <a href="https://github.com/nteract/papermill">papermill</a>) and run somewhat slow.</p>
 <p>Make sure to run the complete suite before submitting a PR</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a>python<span class="w"> </span>-m<span class="w"> </span>pytest<span class="w"> </span>-r<span class="w"> </span>sa<span class="w"> </span>--mpl<span class="w"> </span>--mpl-results-path<span class="o">=</span>pytest_results<span class="w"> </span>-n<span class="w"> </span><span class="m">4</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a href="#__codelineno-5-1" id="__codelineno-5-1" name="__codelineno-5-1"></a>python<span class="w"> </span>-m<span class="w"> </span>pytest<span class="w"> </span>-r<span class="w"> </span>sa<span class="w"> </span>--mpl<span class="w"> </span>--mpl-results-path<span class="o">=</span>pytest_results<span class="w"> </span>-n<span class="w"> </span><span class="m">4</span>
 </span></code></pre></div>
 <p><strong>With  nox</strong></p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a href="#__codelineno-4-1" id="__codelineno-4-1" name="__codelineno-4-1"></a>nox<span class="w"> </span>-s<span class="w"> </span>tests
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a href="#__codelineno-6-1" id="__codelineno-6-1" name="__codelineno-6-1"></a>nox<span class="w"> </span>-s<span class="w"> </span>tests
 </span></code></pre></div>
 <h3 id="making-a-pull-request">Making a pull request<a class="headerlink" href="#making-a-pull-request" title="Permanent link">¤</a></h3>
-<p>We follow <a href="https://www.conventionalcommits.org/">Conventional Commit</a> for commit messages and PR titles. Since we merge PR's using squash commits, it's fine if the final commit messages (proposed in the PR body) follow this convention.</p>
+<p>We follow <a href="https://www.conventionalcommits.org/">Conventional Commit</a> for commit messages and PR titles. Pull requests are often squash-merged, and then it is the final commit message — the one proposed in the PR body — that needs to follow the convention. A PR whose commits are already well organised may instead be merged as it is, so it is worth having each of them follow it too.</p>
 <h3 id="generating-reference-visuals">Generating Reference Visuals<a class="headerlink" href="#generating-reference-visuals" title="Permanent link">¤</a></h3>
 <p>If you modified expected outcomes of the tests. New baseline visuals can be generated using this command:</p>
 <p><strong>With  pytest</strong></p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a href="#__codelineno-5-1" id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>pytest<span class="w"> </span>-r<span class="w"> </span>sa<span class="w"> </span>--mpl<span class="w"> </span>-n<span class="w"> </span><span class="m">4</span><span class="w"> </span>--mpl-generate-path<span class="o">=</span>tests/baseline
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a href="#__codelineno-7-1" id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>pytest<span class="w"> </span>-r<span class="w"> </span>sa<span class="w"> </span>--mpl<span class="w"> </span>-n<span class="w"> </span><span class="m">4</span><span class="w"> </span>--mpl-generate-path<span class="o">=</span>tests/baseline
 </span></code></pre></div>
 <p><strong>With  nox</strong></p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a href="#__codelineno-6-1" id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="w"> </span>nox<span class="w"> </span>-s<span class="w"> </span>generate_examples_figures
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a href="#__codelineno-8-1" id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="w"> </span>nox<span class="w"> </span>-s<span class="w"> </span>generate_examples_figures
 </span></code></pre></div>
 <p>Only include the actually modified baseline images in your PR! Running <code>git add -a</code> and the like will sometimes result in including images which are visually identically but not the same bit-wise.</p>
 <h3 id="linting-and-formatting">Linting and Formatting<a class="headerlink" href="#linting-and-formatting" title="Permanent link">¤</a></h3>
 <p>We use <code>prek</code> to manage code formatting and linting. Make sure to run it before committing your changes:</p>
 <p><strong>With  prek</strong></p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a href="#__codelineno-7-1" id="__codelineno-7-1" name="__codelineno-7-1"></a>prek<span class="w"> </span>run<span class="w"> </span>--all-files
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a href="#__codelineno-9-1" id="__codelineno-9-1" name="__codelineno-9-1"></a>prek<span class="w"> </span>run<span class="w"> </span>--all-files
 </span></code></pre></div>
 <p><strong>With  nox</strong></p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a href="#__codelineno-8-1" id="__codelineno-8-1" name="__codelineno-8-1"></a>nox<span class="w"> </span>-s<span class="w"> </span>lint
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a href="#__codelineno-10-1" id="__codelineno-10-1" name="__codelineno-10-1"></a>nox<span class="w"> </span>-s<span class="w"> </span>lint
 </span></code></pre></div>
 <h2 id="contributing-to-the-documentation">Contributing to the documentation<a class="headerlink" href="#contributing-to-the-documentation" title="Permanent link">¤</a></h2>
 <p>The documentation is built using <a href="https://www.mkdocs.org/">MkDocs</a> and the <a href="https://squidfunk.github.io/mkdocs-material/">Material for MkDocs</a> theme. To contribute to the documentation, please look at the
@@ -1842,7 +1904,7 @@ file for instructions.</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="July 23, 2026 16:09:32 UTC">July 23, 2026</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="July 25, 2026 12:44:42 UTC">July 25, 2026</span>
   </span>
 
     
